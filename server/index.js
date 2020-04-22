@@ -13,23 +13,6 @@ const data = require("./data");
     //                       name: String}]
 */
 
-//     attacks: { fast: [{ name: String
-//                         type: String
-//                         damage: Int},
-//                       { name: String
-//                         type: String
-//                         damage: Int}],
-//               special: [{ name: String
-//                           type: String
-//                           damage: Int},
-//                         { name: String
-//                           type: String
-//                           damage: Int},
-//                         { name: String
-//                           type: String
-//                           damage: Int}]
-//               }
-
 // The schema should model the full data object available.
 const schema = buildSchema(`
   type Pokemon {
@@ -85,6 +68,8 @@ const schema = buildSchema(`
   type Query {
     Pokemons: [Pokemon]
     Pokemon(name: String!): Pokemon
+    getPokemonByName(name: String!): Pokemon
+    getPokemonById(id: String!): Pokemon
   }
 `);
 
@@ -93,8 +78,13 @@ const root = {
   Pokemons: () => {
     return data.pokemon;
   },
-  Pokemon: (request) => {
+
+  getPokemonByName: (request) => {
     return data.pokemon.find((pokemon) => pokemon.name === request.name);
+  },
+
+  getPokemonById: (request) => {
+    return data.pokemon.find((pokemon) => pokemon.id === request.id);
   },
 };
 
