@@ -68,11 +68,25 @@ const schema = buildSchema(`
     Pokemons: [Pokemon]
     getPokemonByName(name: String!): Pokemon
     getPokemonById(id: String!): Pokemon
+    getPokemonByType(type: String!): [Pokemon]
     Attacks: Attacks
     AttackByType(type: String): [AttackObj]
     Types: [String]
   }
 `);
+
+/*
+
+query {
+  type(name: "Dragon") {
+    Pokemon {
+      name
+      id
+    }
+  }
+}
+
+*/
 
 // The root provides the resolver functions for each type of query or mutation.
 const root = {
@@ -92,6 +106,16 @@ const root = {
 
   Pokemons: () => {
     return data.pokemon;
+  },
+
+  getPokemonByType: (request) => {
+    let getPokemonByTypeArray = data.pokemon.filter((singlePokemon) => {
+      if (singlePokemon.types.includes(request.type)) {
+        return singlePokemon;
+      }
+    });
+
+    return getPokemonByTypeArray;
   },
 
   getPokemonByName: (request) => {
