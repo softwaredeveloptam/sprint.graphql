@@ -4,12 +4,84 @@ const { buildSchema } = require("graphql");
 // The data below is mocked.
 const data = require("./data");
 
+/*
+  check later list
+  1. how to populate name when calling evolutions by itself
+    // ie:    evolutions: [{ id: Int
+    //                       name: String},
+    //                     { id: Int
+    //                       name: String}]
+*/
+
+//     attacks: { fast: [{ name: String
+//                         type: String
+//                         damage: Int},
+//                       { name: String
+//                         type: String
+//                         damage: Int}],
+//               special: [{ name: String
+//                           type: String
+//                           damage: Int},
+//                         { name: String
+//                           type: String
+//                           damage: Int},
+//                         { name: String
+//                           type: String
+//                           damage: Int}]
+//               }
+
 // The schema should model the full data object available.
 const schema = buildSchema(`
   type Pokemon {
     id: String
     name: String!
+    classification: String
+    types: [String]
+    resistant: [String]
+    weaknesses: [String]
+    weight: Weight
+    height: Height
+    fleeRate: Float
+    evolutionRequirements: EvolutionRequirements
+    evolutions: [Evolutions]
+    maxCP: Int
+    maxHP: Int
+    attacks: Attacks
+
   }
+
+  type Weight {
+    minimum: String
+    maximum: String
+  }
+
+  type Height {
+    minimum: String
+    maximum: String
+  }
+
+  type EvolutionRequirements {
+    amount: Int
+    name: String
+  }
+
+  type Evolutions {
+    id: Int
+    name: String
+  }
+
+  type Attack {
+    name: String
+    type: String
+    damage: Int
+  }
+  
+  type Attacks {
+    fast: [Attack]
+    special: [Attack]
+  }
+
+
   type Query {
     Pokemons: [Pokemon]
     Pokemon(name: String!): Pokemon
