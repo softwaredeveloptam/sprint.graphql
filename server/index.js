@@ -68,7 +68,7 @@ const schema = buildSchema(`
     Pokemons: [Pokemon]
     getPokemonByName(name: String!): Pokemon
     getPokemonById(id: String!): Pokemon
-    Attacks: [Attacks]
+    Attacks: Attacks
     Types: [String]
   }
 `);
